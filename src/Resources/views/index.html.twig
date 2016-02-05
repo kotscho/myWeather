@@ -1,0 +1,23 @@
+{% import "input_macro.html.twig" as forms %}
+<!DOCTYPE html>
+<html>
+    <head
+        <script src="https://code.jquery.com/jquery-2.2.0.min.js"></script>
+        <link rel="stylesheet" href="{{ URL_ROOT }}css/styles.css">
+        <title>Current weather</title>
+    </head>
+    <body> 
+         <div><h1>Weatherfrog</h1></div>
+        <div id="formWrapped">
+            <form method="POST" name="weathersearch" action= "{{ URL_ROOT }}{{ SCRIPT_NAME }}/weather/search">
+                {{ forms.input('cityname') }}&nbsp;
+                {{ forms.input('submit_city', 'Ask the frog', 'submit') }}
+            </form>
+        </div>
+        <div id="results">    
+            <h2>{{ city }}</h2>
+            <h2><img src="{{ image }}" alt="{{ image }}"/></h2>
+             <h3>{{ temperature }}&nbsp;°C</h3>
+        </div>
+    </body>
+</html>

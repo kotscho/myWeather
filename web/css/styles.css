@@ -1,0 +1,14 @@
+html {
+  text-align: center;
+}
+body {
+  background: url(../images/frog.jpg) top 35px center no-repeat;
+}
+
+#formWrapped {
+    margin-top: 200px;
+}
+
+#results {
+    
+}

@@ -1,0 +1,10 @@
+{
+    "require": {
+        "raveren/kint": "0.9",
+	"nategood/httpful": "*",
+        "doctrine/orm": "*",
+        "twig/twig": "~1.0",
+        "twbs/bootstrap": "^3.3",
+        "twig/extensions": "^1.3"
+    }
+}
