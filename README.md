@@ -1,14 +1,14 @@
-myWheather OpenWheatherMap client
+myWeather OpenWeatherMap client
 --------------------------------
 
-A simple client for testing OpenWheatherMap wheather service towards further utilization and usage in misc. Projects
+A simple client for testing OpenWeatherMap weather service towards further utilization and usage in misc. Projects
 
 
 ### Installation instructions
 
 - Use Composer and the provided composer.json to install all 3rd party dependencies
 
-- Get yourself an OpenWhethermap API key
+- Get yourself an OpenWeathermap API key
  
 - Create a config directory in your projects root
 
