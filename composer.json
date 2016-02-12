@@ -1,4 +1,10 @@
 {
+     "autoload": {
+        "psr-0": {
+            "MyWeather\\": "src/"
+        }
+    },
+    
     "require": {
         "raveren/kint": "0.9",
 	"nategood/httpful": "*",

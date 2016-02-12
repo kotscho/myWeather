@@ -1,4 +1,6 @@
 <?php
+
+namespace MyWeather\Component;
 /**
  * Standalone URL Management and manipulation class
  * 
@@ -49,7 +51,7 @@ class URLManagement{
     /**
      * @param type $elements additonalurl parts
      * @return String Host url with optional additional elements
-     */
+     */ 
     public function buildHostUrl( $elements = '' ){
         return $this->protocol . '://' . $this->host . (empty($elements) ? '' : '/'.$elements);  
     }

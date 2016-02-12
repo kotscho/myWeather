@@ -1,4 +1,6 @@
 <?php
+
+namespace MyWeather\Service;
 /**
  * 
  * OpenWheatherMap wheather forecast client 
@@ -6,6 +8,7 @@
  * @author Konstantinos Doskas
  * 
  */
+
 
 class Weather {
      
@@ -17,7 +20,7 @@ class Weather {
     
     private $weatherIcons = array( 'clearsky' => '01',
                                     'fewclouds' => '02',
-                                    'scattered clouds' => '03',
+                                    'scatteredclouds' => '03',
                                     'brokenclouds' => '04',
                                     'overcastclouds' => '04',
                                     'showerrain' => '09',
@@ -116,7 +119,7 @@ class Weather {
      */
     private function readConfigFile(){
         try { 
-            $jsonString =  file_get_contents( __DIR__ . '/../config/config.json');
+            $jsonString =  file_get_contents( __DIR__ . '/../../../config/config.json');
             $config = json_decode($jsonString);
             
             return $config->apikey;
