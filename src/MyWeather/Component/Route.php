@@ -49,7 +49,7 @@ class Route {
      * @param \MyWeather\Component\ControllerInterface $controllerObj
      * @param string $action
      * @param string $param
-     * @return boolean true on success faalse on failure
+     * @return boolean true on success false on failure
      * 
      */
     public static function redirecToRoute( ControllerInterface $controllerObj, $action, $param = '' ){
