@@ -17,7 +17,7 @@ class MyWeatherTest extends \PHPUnit_Framework_TestCase {
     *
     * @return mixed Method return.
     */
-    public function invokeNonePublicMethod(&$object, $methodName, array $parameters = array()) {
+    public function invokeNonPublicMethod(&$object, $methodName, array $parameters = array()) {
         $reflection = new \ReflectionClass(get_class($object));
         $method = $reflection->getMethod($methodName);
         $method->setAccessible(true);
@@ -32,7 +32,7 @@ class MyWeatherTest extends \PHPUnit_Framework_TestCase {
      */
     public function testReadConfigFile(){
         $test = new Weather($this->city, $this->mode);
-        $a = $this->invokeNonePublicMethod( $test, 'readConfigFile' );
+        $a = $this->invokeNonPublicMethod( $test, 'readConfigFile' );
         $this->assertNotEmpty($a);
         
         return $a;
