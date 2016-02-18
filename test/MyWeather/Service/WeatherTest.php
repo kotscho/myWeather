@@ -3,10 +3,21 @@ namespace MyWeather\Service;
 
 class MyWeatherTest extends \PHPUnit_Framework_TestCase {
     
+    /**
+     *
+     * @var string $city test value 
+     */
     private $city = 'Athens';
-    
+     /**
+     *
+     * @var string $mode test value 
+     */
     private $mode = 'xml';
-    
+     /**
+     *
+     * @var string $search test value 
+     */
+    private $search = 'Athens';
    /**
     * 
     * Call protected/private method of a class.
@@ -33,8 +44,35 @@ class MyWeatherTest extends \PHPUnit_Framework_TestCase {
     public function testReadConfigFile(){
         $test = new Weather($this->city, $this->mode);
         $a = $this->invokeNonPublicMethod( $test, 'readConfigFile' );
-        $this->assertNotEmpty($a);
+        $this->assertInstanceOf('stdClass', $a);
         
+        return $a;
+    }
+    
+    /**
+     * @covers \MyWeather\Service\Weather::initMongDB
+     * @uses \MyWeather\Service\Weather::__construct
+     */
+    public function testInitMongDB(){
+        $test = new Weather($this->city, $this->mode);
+        $a = $this->invokeNonPublicMethod( $test, 'initMongDB' );
+        $this->assertInstanceOf('\MongoCollection', $a);
+        
+        return $a;
+    }
+    
+    /**
+     * @covers \MyWeather\Service\Weather::getCitiesInstantly
+     * @uses \MyWeather\Service\Weather::__construct
+     */
+    public function testGetCitiesInstantly(){
+        $test = new Weather($this->city, $this->mode);
+        $a = $this->invokeNonPublicMethod( $test, 'initMongDB' );
+        $test->searchString = $this->search;
+        $a = $test->getCitiesInstantly();
+        
+        $this->assertNotNull($a);
+
         return $a;
     }
 }

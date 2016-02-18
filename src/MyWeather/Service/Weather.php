@@ -32,6 +32,12 @@ class Weather {
     
     public static $apiKey;
     
+    public static $mongoDB;
+    
+    public static $mongoCollection;
+
+    public $searchString = null;
+
     public $weatherResponse = null;
     
     
@@ -41,7 +47,10 @@ class Weather {
      * @constructor
      */
     public function __construct( $city, $mode ) {
-       self::$apiKey = $this->readConfigFile();
+       $jsonObj = $this->readConfigFile();
+       self::$apiKey = $jsonObj->apikey;
+       self::$mongoDB = $jsonObj->mongoDB;
+       self::$mongoCollection = $jsonObj->mongoCollection;
        $this->getWeatherByName( $city, self::$apiKey, $mode );
     }
     /**
@@ -115,17 +124,45 @@ class Weather {
     }
     /**
      * read the json config file
-     * @return string apikey
+     * @return Object of stdClass
      */
     private function readConfigFile(){
         try { 
             $jsonString =  file_get_contents( __DIR__ . '/../../../config/config.json');
             $config = json_decode($jsonString);
             
-            return $config->apikey;
+            return $config;
         }
         catch (Exception $e){
             $e->getMessage();
         }
+    }
+    /**
+     * Search Mongo DB using leading and trailing joker
+     * @param type $string 
+     * @return array
+     */
+    public function getCitiesInstantly( $string = '' ){
+       if ( !empty( $string ) ){ 
+           $this->searchString = $string;
+       }
+       $mngCollection = $this->initMongDB();
+       $cursor = $mngCollection->find( array('name' => new \MongoRegex("/^".$this->searchString."/") ) );
+       while( ($record = $cursor->getNext()) != false ){
+           $records[] = $record;
+       }
+       return $records;
+    }
+    
+    /**
+     * Initialize Mongo database for instant search
+     * @return Object of MongoCollection
+     */
+    private function initMongDB(){
+        $mng = new \Mongo();
+        $mngDb = $mng->selectDB(self::$mongoDB);
+        $mngCollection = $mngDb->selectCollection(self::$mongoCollection);
+        
+        return $mngCollection;
     }
 }

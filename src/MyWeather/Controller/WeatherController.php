@@ -46,5 +46,11 @@ class WeatherController extends AbstractController implements ControllerInterfac
          * maybe i should use \nategood\HTTPful here... 
          */    
         return Route::redirecToRoute( $this, 'indexAction', $this->request['cityname']) ;
-    }   
+    }
+    /**
+     * Instantly retrieve city names
+     */
+    public function ajaxInstantCitiesAction(){
+        
+    }
 }
