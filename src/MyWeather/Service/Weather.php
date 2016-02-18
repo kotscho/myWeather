@@ -138,7 +138,7 @@ class Weather {
         }
     }
     /**
-     * Search Mongo DB using leading and trailing joker
+     * Search Mongo DB using trailing joker
      * @param type $string 
      * @return array
      */

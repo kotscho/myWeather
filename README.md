@@ -16,6 +16,13 @@ A simple client for testing OpenWeatherMap weather service towards further utili
 
   like this: "apikey": "yourapikey"
 
+- Add also key value pairs for 
+
+    "mongoDB": "yourDbName"
+
+    "mongoCollection": "yourCollectionName"
+
+
 - Copy the config.json file into your config folder
 
 
