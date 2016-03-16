@@ -19,7 +19,9 @@ class Route {
      */
     private static $mappingTable = array(
                                 "weather/search"  => "WeatherController.searchAction",
+                                "weather/instant" => "WeatherController.instantAction",
                                 "weather([\/][\w\+]+){0,1}" => "WeatherController.indexAction",
+                                "" => "WeatherController.indexAction"//like app.php - on startup
                             );
     
     private function __construct() {
@@ -34,14 +36,15 @@ class Route {
                 //kint::dump($args);
                 list( $class, $method ) = explode( ".", $controller );
                 $class = '\\MyWeather\\Controller\\'.ucfirst( $class );
-                
+                if ( !class_exists( $class ) ){
+                    throw new Exception(sprintf("Class with full qualified classname [%s] does not exist"), $class);
+                }
                 return call_user_func_array(
                     array( new $class( $twig, $request ), (empty($method) ? self::DEFAULT_ACTION : $method) ),
                       array_slice($args, 1));
             }
         }
-        trigger_error('Controller for URL ' .$url . ' does not exist');
-        header("HTTP/1.0 404 Not Found");
+        throw new \Exception(sprintf("Controller for URL [%s] does not exist"), $url);
     }
     
     /**

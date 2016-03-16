@@ -50,7 +50,9 @@ class WeatherController extends AbstractController implements ControllerInterfac
     /**
      * Instantly retrieve city names
      */
-    public function ajaxInstantCitiesAction(){
-        
+    public function instantAction(){
+        $weather = new Weather();
+        $result = $weather->getCitiesInstantly($this->request['searchTerm']);
+        echo json_encode($result);
     }
 }

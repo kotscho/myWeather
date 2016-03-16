@@ -9,6 +9,53 @@ body {
     margin-top: 200px;
 }
 
-#results {
+#results{
+
+}
+
+#cityname {
     
+    width: 200px;
+}
+
+#weathersearch {
+	position:relative;
+	display:block;
+	height:35px;
+	width:200px;
+	padding: 0px;
+	margin: 0px auto 0px auto;
+}
+
+#searchInstant {
+	border:1px solid #CCCCCC;
+	width:200px;
+	display:none;
+	z-index: 300;
+	margin-top:-3px;
+	margin-left: 0px;
+}
+#searchInstant ul {
+	list-style:none;
+	padding:0px;
+	margin:0px;
+}
+#searchInstant ul li {
+	background-color:#FFFFFF;
+	text-align: left !important;
+}
+#searchInstant ul li:hover {
+	background-color:#EBEBEB;
+}
+#searchInstant ul li a {
+	line-height:20px;
+	text-decoration:none;
+	padding: 5px;
+	display: block;
+	color: #333333;
+}
+
+.search_hover { 
+	background-color:#EBEBEB!important; 
+	color:#232323!important; 
 }

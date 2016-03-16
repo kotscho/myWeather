@@ -1,17 +1,80 @@
 {% import "input_macro.html.twig" as forms %}
 <!DOCTYPE html>
 <html>
-    <head
-        <script src="https://code.jquery.com/jquery-2.2.0.min.js"></script>
-        <link rel="stylesheet" href="{{ URL_ROOT }}css/styles.css">
-        <title>Current weather</title>
+    <head>
+       <script type="text/javascript" src="https://code.jquery.com/jquery-2.2.0.min.js"></script>
+       <script type="text/javascript" src="https://code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
+       <script type="text/javascript" src="{{ URL_ROOT }}js/utils.js"></script> 
+       <link rel="stylesheet" href="{{ URL_ROOT }}css/styles.css">
+       <title>Current weather</title>
+       {% block instant %}
+       <script>
+        $(document).ready(function(){
+            $("#cityname").keyup(function(e){
+                if (e.keyCode === 38 || e.keyCode === 40){//up and down arrows should never fire  
+                    return;
+                }
+                $.ajax({    
+                    type: "POST",
+                    url: "{{ URL_ROOT }}{{ SCRIPT_NAME }}/weather/instant",
+                    data: { searchTerm: $("#cityname").val() },
+                    cache: false,
+                    success: function(data){
+                        console.log('I was fired!!!' + e.keyCode);
+                    
+                        if( jQuery.isEmptyObject(JSON.parse(data)) ){
+                            $("#searchInstant").hide();
+                        } else {
+                            $("#searchInstant").show();
+                        }
+                        $("#searchInstant").empty();
+                        
+                        var cities = $('<ul/>').appendTo('#searchInstant');
+                        var link = null;
+                        
+                        $.each(JSON.parse(data), function() {
+                            $.each(this, function(k, v){
+                                if( k == 'name' ){
+                                    link = "{{ URL_ROOT }}{{ SCRIPT_NAME }}/weather/"+v.replace(/\s+/g,'+');
+                                    cities.append('<li class="link"><a title="'+v+'" href="'+ link +'">' + v + '</a></li>');
+                                }
+                            }); 
+                        });  
+                    },
+                    error: function(){
+                        console.log('failure');
+                        cities.append('<li class="link">no results</li>');
+                    }
+                }); 
+            });
+        });     
+        $(document).keydown(function(e){
+                console.log(e.keyCode);
+                //no item selected
+                if ($("#searchInstant ul li .search_hover").size() === 0){
+                    currentSelection = -1;
+                }
+                if( (e.keyCode === 38) && (currentSelection !== -1)) {
+                    if(currentSelection != 0) {
+			currentSelection--;
+                        setSelected(currentSelection);
+                    }
+                } else if (e.keyCode === 40) {//arrow down
+                    if(currentSelection !== $("#searchInstant ul li").size() -1) {
+			currentSelection++;
+                        setSelected(currentSelection);
+                    }
+                }
+               console.log(currentSelection);
+        });
+        </script>
+        {% endblock %}
     </head>
     <body> 
-         <div><h1>Weatherfrog</h1></div>
+        <div><h1>Weatherfrog</h1></div>
         <div id="formWrapped">
-            <form method="POST" name="weathersearch" action= "{{ URL_ROOT }}{{ SCRIPT_NAME }}/weather/search">
-                {{ forms.input('cityname') }}&nbsp;
-                {{ forms.input('submit_city', 'Ask the frog', 'submit') }}
+            <form method="POST" id="weathersearch" name="weathersearch" autocomplete="off" action= "{{ URL_ROOT }}{{ SCRIPT_NAME }}/weather/search">
+                {{ forms.input('cityname') }}<div id="searchInstant"></div>
             </form>
         </div>
         <div id="results">    

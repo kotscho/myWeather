@@ -18,6 +18,8 @@ class Weather {
     
     const IMAGE_FORMAT = 'png';
     
+    const INSTANT_LIMIT = 10;
+    
     private $weatherIcons = array( 'clearsky' => '01',
                                     'fewclouds' => '02',
                                     'scatteredclouds' => '03',
@@ -143,12 +145,15 @@ class Weather {
      * @return array
      */
     public function getCitiesInstantly( $string = '' ){
-       if ( !empty( $string ) ){ 
-           $this->searchString = $string;
+
+       if ( empty( $string ) ){ 
+           return array();
        }
+       $this->searchString = $string;
        $mngCollection = $this->initMongDB();
        $cursor = $mngCollection->find( array('name' => new \MongoRegex("/^".$this->searchString."/") ) );
-       while( ($record = $cursor->getNext()) != false ){
+       $resultSet = $cursor->limit(self::INSTANT_LIMIT);
+       while( ($record = $resultSet->getNext()) != false ){
            $records[] = $record;
        }
        return $records;
